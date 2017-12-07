@@ -1,0 +1,50 @@
+#savy {
+  padding-top: 36px;
+}
+#savy .text-green {
+  color: #4CAF50;
+}
+#savy .text-red {
+  color: #F44336;
+}
+#savy .summary-block small {
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  color: #565656;
+}
+#savy .summary-block .current {
+  font-size: 1rem;
+}
+#savy .operations {
+  background: #f1f1f1;
+  font-weight: bold;
+}
+#savy .operation-line {
+  font-size: 0.8rem;
+  padding: 6px 14px;
+}
+#savy .operation-line:nth-child(odd) {
+  background: #f9f9f9;
+}
+#savy .operations-group {
+  background: #f5f5f5;
+  padding: 8px 20px;
+  font-weight: bold;
+}
+#savy .operations-summary {
+  line-height: 1.2;
+}
+#savy .operation-checked {
+  background: rgba(255, 235, 0, 0.41) !important;
+}
+#savy .operation-label i {
+  display: none;
+  margin-left: 8px;
+  cursor: pointer;
+}
+#savy .operation-label:hover i {
+  display: inline;
+}
+#savy .edit-budgets {
+  opacity: 0.6;
+}
