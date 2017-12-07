@@ -127,6 +127,17 @@ class Summary extends React.Component {
                 <h2 className="mb-4">Savy</h2>
 
                 <div className="row">
+                    <Operations
+                        operations={operations}
+                        budgets={budgets}
+                        onOperationAdded={this.onOperationAdded}
+                        onOperationToggled={this.onOperationToggled}
+                        onOperationRemoved={this.onOperationRemoved}
+                        onImportBudgetOperations={this.onImportBudgetOperations}
+                        onEditBudgets={this.onEditBudgets}
+                        onBudgetAdded={this.onBudgetAdded}
+                        onBudgetRemoved={this.onBudgetRemoved}
+                    />
                     <div className="col-sm-12 col-md-4">
                         <div className="card mb-3">
                             <div className="card-body summary-block">
@@ -139,8 +150,6 @@ class Summary extends React.Component {
                                 </h4>
                             </div>
                         </div>
-                    </div>
-                    <div className="col-sm-12 col-md-4">
                         <div className="card mb-3">
                             <div className="card-body summary-block">
                                 <h6 className="card-title text-muted text-uppercase">Debit</h6>
@@ -152,8 +161,6 @@ class Summary extends React.Component {
                                 </h4>
                             </div>
                         </div>
-                    </div>
-                    <div className="col-sm-12 col-md-4">
                         <div className="card mb-3 summary-balance">
                             <div className="card-body summary-block">
                                 <h6 className="card-title text-muted text-uppercase">Balance</h6>
@@ -167,20 +174,6 @@ class Summary extends React.Component {
                         </div>
                     </div>
                 </div>
-
-                <br />
-
-                <Operations
-                    operations={operations}
-                    budgets={budgets}
-                    onOperationAdded={this.onOperationAdded}
-                    onOperationToggled={this.onOperationToggled}
-                    onOperationRemoved={this.onOperationRemoved}
-                    onImportBudgetOperations={this.onImportBudgetOperations}
-                    onEditBudgets={this.onEditBudgets}
-                    onBudgetAdded={this.onBudgetAdded}
-                    onBudgetRemoved={this.onBudgetRemoved}
-                />
 
             </div>
         );

@@ -5,6 +5,7 @@ import {
 } from 'react-router-dom'
 
 import Summary from './summary/Summary';
+import Clear from './clear/Clear';
 
 import './app.css';
 
@@ -14,6 +15,7 @@ class App extends React.Component {
 
         if (!storage.getItem('auth')) {
             storage.setItem('auth', window.prompt('Please provide a valid Auth key:'));
+            window.location.reload();
         }
     }
 
@@ -23,6 +25,7 @@ class App extends React.Component {
                 <main role="main" className="container">
                     <Route exact path="/" component={Summary}/>
                     <Route exact path="/summary" component={Summary}/>
+                    <Route exact path="/clear" component={Clear}/>
                 </main>
             </Router>
         );
