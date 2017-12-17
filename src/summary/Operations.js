@@ -1,8 +1,9 @@
 import React from 'react';
+import { Link } from 'react-router-dom'
 
 import { formatCurrency } from '../utilities/Currency';
 
-const Operation = ({ operation, onToggle, onRemove }) => (
+export const Operation = ({ operation, onToggle, onRemove }) => (
     <li className={`list-group-item d-flex justify-content-between align-items-center operation-line ${operation.status === 'checked' ? 'operation-checked' : ''}`}>
         <div className="form-check mb-0">
             <label className="form-check-label operation-label">
@@ -103,119 +104,119 @@ class Operations extends React.Component {
             .filter(operation => operation.from_budget);
 
         return (
-            <div className="col-sm-12 col-md-8">
-                <div className="row">
-                    <div className="col-sm-12 col-md-6">
-                        <ul className="list-group mb-3">
-                            <li className="list-group-item d-flex justify-content-between align-items-center operations-group">
-                                Extra
-                                <p className="operations-summary mb-0 text-right">
-                                    {formatCurrency(extraOperations.reduce((sum, operation) => sum + operation.amount, 0))}<br />
-                                    <small className="text-green mr-2" title="Extra credits">{formatCurrency(extraOperations.filter(op => op.amount >= 0).reduce((sum, op) => sum + op.amount, 0))}</small>
-                                    <small className="text-red" title="Extra debits">{formatCurrency(extraOperations.filter(op => op.amount < 0).reduce((sum, op) => sum + op.amount, 0))}</small>
-                                </p>
-                            </li>
+            <div className="row mt-2">
+                {!displayEditBudgets &&
+                <div className="col-sm-12 col-md-6">
+                    <ul className="list-group">
+                        <li className="list-group-item d-flex justify-content-between align-items-center operations-group">
+                            Budget
+                            <p className="operations-summary mb-0 text-right">
+                                {formatCurrency(budgetOperations.reduce((sum, operation) => sum + operation.amount, 0))}<br />
+                                <small className="text-green mr-2" title="Budget credits">{formatCurrency(budgetOperations.filter(op => op.amount >= 0).reduce((sum, op) => sum + op.amount, 0))}</small>
+                                <small className="text-red" title="Budget debits">{formatCurrency(budgetOperations.filter(op => op.amount < 0).reduce((sum, op) => sum + op.amount, 0))}</small>
+                            </p>
+                        </li>
 
-                            <li className="list-group-item d-flex justify-content-between align-items-center">
-                                <div className="input-group input-group-sm">
-                                    <input
-                                        type="text"
-                                        className="form-control"
-                                        placeholder="Operation"
-                                        ref={(input) => this.newOperationLabelInput = input }
-                                        onChange={(e) => this.updateField('newOperationLabel', e.target.value)}
-                                        value={this.state.newOperationLabel} />
+                        {!budgetOperations.length &&
+                        <li className="list-group-item d-flex justify-content-between align-items-center">No operation.</li>
+                        }
 
-                                    <input
-                                        type="text"
-                                        className="form-control"
-                                        placeholder="Amount"
-                                        onChange={(e) => this.updateField('newOperationAmount', e.target.value)}
-                                        onKeyUp={this.validateWithEnterKey}
-                                        value={this.state.newOperationAmount}/>
+                        {budgetOperations.map(operation => <Operation key={operation.id} operation={operation} onToggle={onOperationToggled} onRemove={onOperationRemoved} />)}
+                    </ul>
 
-                                    <span className="input-group-btn">
-                                        <button className="btn btn-primary" type="button" onClick={this.onValidateNewOperation}>Add</button>
-                                    </span>
-                                </div>
-                            </li>
+                    <p className="mt-2 mb-5">
+                        <button type="button" className="btn btn-link btn-sm" onClick={onImportBudgetOperations}>Import budgets</button>
+                        <button type="button" className="btn btn-link btn-sm" onClick={() => this.setState({ displayEditBudgets: true })}>Edit budgets</button>
+                    </p>
+                </div>
+                }
 
-                            {!extraOperations.length &&
-                            <li className="list-group-item d-flex justify-content-between align-items-center">
-                                No operation.
-                            </li>
-                            }
+                {displayEditBudgets &&
+                <div className="col-sm-12 col-md-6">
+                    <ul className="list-group edit-budgets">
+                        <li className="list-group-item d-flex justify-content-between align-items-center operations-group">
+                            Budgets
+                        </li>
 
-                            {extraOperations.map(operation => <Operation key={operation.id} operation={operation} onToggle={onOperationToggled} onRemove={onOperationRemoved} />)}
-                        </ul>
-                    </div>
+                        <li className="list-group-item d-flex justify-content-between align-items-center">
+                            <div className="input-group input-group-sm">
+                                <input
+                                    type="text"
+                                    className="form-control"
+                                    placeholder="Budget"
+                                    ref={(input) => this.newBudgetLabelInput = input }
+                                    onChange={(e) => this.updateField('newBudgetLabel', e.target.value)}
+                                    value={this.state.newBudgetLabel} />
 
-                    {!displayEditBudgets &&
-                    <div className="col-sm-12 col-md-6">
-                        <ul className="list-group">
-                            <li className="list-group-item d-flex justify-content-between align-items-center operations-group">
-                                Budget
-                                <p className="operations-summary mb-0 text-right">
-                                    {formatCurrency(budgetOperations.reduce((sum, operation) => sum + operation.amount, 0))}<br />
-                                    <small className="text-green mr-2" title="Budget credits">{formatCurrency(budgetOperations.filter(op => op.amount >= 0).reduce((sum, op) => sum + op.amount, 0))}</small>
-                                    <small className="text-red" title="Budget debits">{formatCurrency(budgetOperations.filter(op => op.amount < 0).reduce((sum, op) => sum + op.amount, 0))}</small>
-                                </p>
-                            </li>
+                                <input
+                                    type="text"
+                                    className="form-control"
+                                    placeholder="Amount"
+                                    onChange={(e) => this.updateField('newBudgetAmount', e.target.value)}
+                                    value={this.state.newBudgetAmount}/>
 
-                            {!budgetOperations.length &&
-                            <li className="list-group-item d-flex justify-content-between align-items-center">
-                                No operation.
-                            </li>
-                            }
-
-                            {budgetOperations.map(operation => <Operation key={operation.id} operation={operation} onToggle={onOperationToggled} onRemove={onOperationRemoved} />)}
-                        </ul>
-
-                        <p className="mt-2 mb-5">
-                            <button type="button" className="btn btn-link btn-sm" onClick={onImportBudgetOperations}>Import budgets</button>
-                            <button type="button" className="btn btn-link btn-sm" onClick={() => this.setState({ displayEditBudgets: true })}>Edit budgets</button>
-                        </p>
-                    </div>
-                    }
-
-                    {displayEditBudgets &&
-                    <div className="col-sm-12 col-md-6">
-                        <ul className="list-group edit-budgets">
-                            <li className="list-group-item d-flex justify-content-between align-items-center operations-group">
-                                Budgets set
-                            </li>
-
-                            <li className="list-group-item d-flex justify-content-between align-items-center">
-                                <div className="input-group input-group-sm">
-                                    <input
-                                        type="text"
-                                        className="form-control"
-                                        placeholder="Budget"
-                                        ref={(input) => this.newBudgetLabelInput = input }
-                                        onChange={(e) => this.updateField('newBudgetLabel', e.target.value)}
-                                        value={this.state.newBudgetLabel} />
-
-                                    <input
-                                        type="text"
-                                        className="form-control"
-                                        placeholder="Amount"
-                                        onChange={(e) => this.updateField('newBudgetAmount', e.target.value)}
-                                        value={this.state.newBudgetAmount}/>
-
-                                    <span className="input-group-btn">
+                                <span className="input-group-btn">
                                         <button className="btn btn-primary" type="button" onClick={this.onValidateNewBudget}>Add</button>
                                     </span>
-                                </div>
-                            </li>
+                            </div>
+                        </li>
 
-                            {budgets.map(budget => <Operation key={budget.id} operation={budget} onRemove={onBudgetRemoved} />)}
-                        </ul>
+                        {budgets.map(budget => <Operation key={budget.id} operation={budget} onRemove={onBudgetRemoved} />)}
+                    </ul>
 
-                        <p className="mt-2 mb-5">
-                            <button type="button" className="btn btn-link btn-sm" onClick={() => this.setState({ displayEditBudgets: false })}>Close set budgets</button>
-                        </p>
-                    </div>
-                    }
+                    <p className="mt-2 mb-5">
+                        <button type="button" className="btn btn-link btn-sm" onClick={() => this.setState({ displayEditBudgets: false })}>Close set budgets</button>
+                    </p>
+                </div>
+                }
+
+                <div className="col-sm-12 col-md-6">
+                    <ul className="list-group">
+                        <li className="list-group-item d-flex justify-content-between align-items-center operations-group">
+                            Extra
+                            <p className="operations-summary mb-0 text-right">
+                                {formatCurrency(extraOperations.reduce((sum, operation) => sum + operation.amount, 0))}<br />
+                                <small className="text-green mr-2" title="Extra credits">{formatCurrency(extraOperations.filter(op => op.amount >= 0).reduce((sum, op) => sum + op.amount, 0))}</small>
+                                <small className="text-red" title="Extra debits">{formatCurrency(extraOperations.filter(op => op.amount < 0).reduce((sum, op) => sum + op.amount, 0))}</small>
+                            </p>
+                        </li>
+
+                        <li className="list-group-item d-flex justify-content-between align-items-center">
+                            <div className="input-group input-group-sm">
+                                <input
+                                    type="text"
+                                    className="form-control"
+                                    placeholder="Operation"
+                                    ref={(input) => this.newOperationLabelInput = input }
+                                    onChange={(e) => this.updateField('newOperationLabel', e.target.value)}
+                                    value={this.state.newOperationLabel} />
+
+                                <input
+                                    type="text"
+                                    className="form-control"
+                                    placeholder="Amount"
+                                    onChange={(e) => this.updateField('newOperationAmount', e.target.value)}
+                                    onKeyUp={this.validateWithEnterKey}
+                                    value={this.state.newOperationAmount}/>
+
+                                <span className="input-group-btn">
+                                    <button className="btn btn-primary" type="button" onClick={this.onValidateNewOperation}>Add</button>
+                                </span>
+                            </div>
+                        </li>
+
+                        {!extraOperations.length &&
+                        <li className="list-group-item d-flex justify-content-between align-items-center">
+                            <small>No operation</small>
+                        </li>
+                        }
+
+                        {extraOperations.map(operation => <Operation key={operation.id} operation={operation} onToggle={onOperationToggled} onRemove={onOperationRemoved} />)}
+                    </ul>
+
+                    <p className="mt-2 mb-5">
+                        <Link className="btn btn-link btn-sm" to="/estimate">Make an estimate</Link>
+                    </p>
                 </div>
             </div>
         );

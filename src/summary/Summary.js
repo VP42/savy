@@ -124,25 +124,12 @@ class Summary extends React.Component {
 
         return (
             <div>
-                <h2 className="mb-4">Savy</h2>
-
                 <div className="row">
-                    <Operations
-                        operations={operations}
-                        budgets={budgets}
-                        onOperationAdded={this.onOperationAdded}
-                        onOperationToggled={this.onOperationToggled}
-                        onOperationRemoved={this.onOperationRemoved}
-                        onImportBudgetOperations={this.onImportBudgetOperations}
-                        onEditBudgets={this.onEditBudgets}
-                        onBudgetAdded={this.onBudgetAdded}
-                        onBudgetRemoved={this.onBudgetRemoved}
-                    />
                     <div className="col-sm-12 col-md-4">
                         <div className="card mb-3">
                             <div className="card-body summary-block">
-                                <h6 className="card-title text-muted text-uppercase">Credit</h6>
-                                <h4 className="card-subtitle text-right mb-1">
+                                <h6 className="card-title text-muted text-uppercase float-left">Credit</h6>
+                                <h4 className="card-subtitle text-right mb-0">
                                     <p className={`mb-0 ${summary.credit.forecast >= 0 ? 'text-green' : 'text-red'}`}>
                                         <span className="mr-2 current" title="Current credit">({formatCurrency(summary.credit.current)})</span> {formatCurrency(summary.credit.forecast)}
                                     </p>
@@ -150,10 +137,13 @@ class Summary extends React.Component {
                                 </h4>
                             </div>
                         </div>
+                    </div>
+
+                    <div className="col-sm-12 col-md-4">
                         <div className="card mb-3">
                             <div className="card-body summary-block">
-                                <h6 className="card-title text-muted text-uppercase">Debit</h6>
-                                <h4 className="card-subtitle text-right mb-1">
+                                <h6 className="card-title text-muted text-uppercase float-left">Debit</h6>
+                                <h4 className="card-subtitle text-right mb-0">
                                     <p className={`mb-0 ${summary.debit.forecast >= 0 ? 'text-green' : 'text-red'}`}>
                                         <span className="mr-2 current" title="Current debit">({formatCurrency(summary.debit.current)})</span> {formatCurrency(summary.debit.forecast)}
                                     </p>
@@ -161,10 +151,13 @@ class Summary extends React.Component {
                                 </h4>
                             </div>
                         </div>
+                    </div>
+
+                    <div className="col-sm-12 col-md-4">
                         <div className="card mb-3 summary-balance">
                             <div className="card-body summary-block">
-                                <h6 className="card-title text-muted text-uppercase">Balance</h6>
-                                <h4 className={`card-subtitle text-right mb-1`}>
+                                <h6 className="card-title text-muted text-uppercase float-left">Balance</h6>
+                                <h4 className={`card-subtitle text-right mb-0`}>
                                     <p className={`mb-0 ${summary.balance.current >= 0 ? 'text-green' : 'text-red'}`}>
                                         {formatCurrency(summary.balance.forecast)}
                                     </p>
@@ -174,6 +167,18 @@ class Summary extends React.Component {
                         </div>
                     </div>
                 </div>
+
+                <Operations
+                    operations={operations}
+                    budgets={budgets}
+                    onOperationAdded={this.onOperationAdded}
+                    onOperationToggled={this.onOperationToggled}
+                    onOperationRemoved={this.onOperationRemoved}
+                    onImportBudgetOperations={this.onImportBudgetOperations}
+                    onEditBudgets={this.onEditBudgets}
+                    onBudgetAdded={this.onBudgetAdded}
+                    onBudgetRemoved={this.onBudgetRemoved}
+                />
 
             </div>
         );
